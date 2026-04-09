@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /home/dungpd/Downloads/xxxx.com/xxxx-infrastructure/src -name \"*.java\" -exec grep -l \"kafka\\\\|Kafka\\\\|message\\\\|event\" {} \\\\;)",
+      "Bash(find /home/dungpd/Downloads/xxxx.com -name \"*.java\" -exec grep -l \"@Transactional\\\\|idempotent\\\\|Idempotent\\\\|kafka\\\\|Kafka\" {} \\\\;)"
+    ]
+  }
+}
