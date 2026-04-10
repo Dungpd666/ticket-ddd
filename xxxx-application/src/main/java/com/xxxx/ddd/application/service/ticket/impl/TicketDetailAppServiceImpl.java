@@ -29,8 +29,7 @@ public class TicketDetailAppServiceImpl implements TicketDetailAppService {
     }
 
     @Override
-    public boolean orderTicketByUser(Long ticketId) {
-        return ticketDetailCacheServiceRefactor.orderTicketByUser(ticketId);
+    public boolean orderTicketByUser(Long ticketId, Long userId) {
+        return ticketDetailCacheServiceRefactor.orderTicketByUser(ticketId, userId);
     }
-
 }
