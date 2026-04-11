@@ -7,4 +7,6 @@ public interface TicketDetailDomainService {
     TicketDetail getTicketDetailById(Long ticketId);
 
     boolean decrementStock(Long ticketId);
+
+    boolean incrementStock(Long ticketId);
 }

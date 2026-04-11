@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 
 import java.util.Date;
 
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -23,7 +25,10 @@ public class Order {
     private Long userId;
     private Long ticketDetailId;
     private int quantity;
-    private int status; // 0=pending, 1=confirmed, 2=cancelled
+
+    @Enumerated(EnumType.ORDINAL)
+    private OrderStatus status;
+
     private Date createdAt;
     private Date updatedAt;
 }
