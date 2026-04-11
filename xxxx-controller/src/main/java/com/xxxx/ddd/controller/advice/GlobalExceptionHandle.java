@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.xxxx.ddd.controller.model.enums.ResultCode;
 import com.xxxx.ddd.controller.model.enums.ResultUtil;
 import com.xxxx.ddd.controller.model.vo.ResultMessage;
+import com.xxxx.ddd.domain.exception.OrderNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandle {
@@ -33,6 +34,12 @@ public class GlobalExceptionHandle {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultMessage<Void> handleRuntimeException(RuntimeException ex) {
+        return ResultUtil.error(ResultCode.ERROR.code(), ex.getMessage());
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResultMessage<Void> handleOrderNotFound(OrderNotFoundException ex) {
         return ResultUtil.error(ResultCode.ERROR.code(), ex.getMessage());
     }
 }
