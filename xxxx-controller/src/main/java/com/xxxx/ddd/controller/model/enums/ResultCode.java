@@ -28,7 +28,7 @@ public enum ResultCode {
      * Mã lỗi trả về
      */
     ERROR(400, "Máy chủ bận, vui lòng thử lại sau"),
-
+    UN_ERROR(500, "Hệ thống lỗi, vui lòng thử lại sau"),
     /**
      * Người dùng
      */
@@ -39,7 +39,6 @@ public enum ResultCode {
     EMPLOYEE_NOT_FOUND(20027, "Nhân viên không tồn tại"),
     EMPLOYEE_DISABLED(20031, "Nhân viên đã bị vô hiệu hóa"),
     USER_NOT_FOUND(20002, "Người dùng không tồn tại hoặc tài khoản đã bị vô hiệu hóa"),
-
 
     /**
      * Cửa hàng
@@ -53,9 +52,9 @@ public enum ResultCode {
     STORE_CLOSED(50006, "Cửa hàng đóng cửa, vui lòng liên hệ với quản trị viên"),
     STORE_DELIVER_PRODUCT_ADDRESS(50007, "Vui lòng điền địa chỉ giao hàng của nhà cung cấp"),
     FREIGHT_TEMPLATE_NOT_FOUND(50010, "Mẫu hiện tại không tồn tại"),
-    STORE_STATUS_IN_PROGRESS(50011, "Cửa hàng đang trong quá trình đăng ký hoặc phê duyệt, vui lòng không thực hiện thao tác lặp lại"),
+    STORE_STATUS_IN_PROGRESS(50011,
+            "Cửa hàng đang trong quá trình đăng ký hoặc phê duyệt, vui lòng không thực hiện thao tác lặp lại"),
     STORE_SHIPPING_ADDRESS_REQUIRED(50012, "Vui lòng điền địa chỉ giao hàng"),
-
 
     /**
      * Sản phẩm
@@ -122,9 +121,9 @@ public enum ResultCode {
     PRODUCT_CATEGORY_PARAMETER_NOT_EXIST(10012, "Nhóm tham số liên kết với danh mục không tồn tại"),
     PRODUCT_CATEGORY_PARAMETER_SAVE_ERROR(10008, "Thêm nhóm tham số liên kết với danh mục thất bại"),
     PRODUCT_CATEGORY_PARAMETER_UPDATE_ERROR(10009, "Thêm nhóm tham số liên kết với danh mục thất bại"),
-    PRODUCT_CATEGORY_DELETE_FLAG_ERROR(10010, "Trạng thái của danh mục con không thể khác với trạng thái của danh mục cha!"),
+    PRODUCT_CATEGORY_DELETE_FLAG_ERROR(10010,
+            "Trạng thái của danh mục con không thể khác với trạng thái của danh mục cha!"),
     PRODUCT_CATEGORY_COMMISSION_RATE_ERROR(10011, "Tỷ lệ hoa hồng của danh mục không chính xác!"),
-
 
     /**
      * Tham số
@@ -138,10 +137,8 @@ public enum ResultCode {
     RATE_LIMIT_ERROR(1003, "Truy cập quá thường xuyên, vui lòng thử lại sau"),
     ;
 
-
     private final Integer code;
     private final String message;
-
 
     ResultCode(Integer code, String message) {
         this.code = code;

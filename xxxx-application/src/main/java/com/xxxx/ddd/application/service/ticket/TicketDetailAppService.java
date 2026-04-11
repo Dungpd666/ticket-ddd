@@ -6,5 +6,5 @@ public interface TicketDetailAppService {
 
     TicketDetailDTO getTicketDetailById(Long ticketId, Long version);
 
-    boolean orderTicketByUser(Long ticketId);
+    boolean orderTicketByUser(Long ticketId, Long userId);
 }

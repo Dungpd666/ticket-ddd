@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.xxxx.ddd.application.model.cache.TicketDetailCache;
+import com.xxxx.ddd.domain.model.entity.Order;
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
+import com.xxxx.ddd.domain.respository.OrderRepository;
 import com.xxxx.ddd.domain.service.TicketDetailDomainService;
+
+import java.util.Date;
 import com.xxxx.ddd.infrastructure.cache.redis.RedisInfrasService;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedLocker;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedService;
@@ -24,8 +28,8 @@ public class TicketDetailCacheServiceRefactor {
     private final RedisDistributedService redisDistributedService;
     private final RedisInfrasService redisInfrasService;
     private final TicketDetailDomainService ticketDetailDomainService;
-    // private static final Logger log =
-    // LoggerFactory.getLogger(TicketDetailCacheService.class);
+    private final OrderRepository orderRepository;
+
     // use guava
     private final static Cache<Long, TicketDetailCache> ticketDetailLocalCache = CacheBuilder.newBuilder()
             .initialCapacity(10)
@@ -33,11 +37,39 @@ public class TicketDetailCacheServiceRefactor {
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
-    public boolean orderTicketByUser(Long ticketId) {
-        ticketDetailLocalCache.invalidate(ticketId); // remove local cache
-        redisInfrasService.delete(genEventItemKey(ticketId));
-        return true;
+    public boolean orderTicketByUser(Long ticketId, Long userId) {
+        RedisDistributedLocker locker = redisDistributedService.getDistributedLock(genEventItemKeyLock(ticketId));
+
+        try {
+            boolean isLock = locker.tryLock(1, 5, TimeUnit.SECONDS);
+            if(!isLock) {
+                return false; 
+            }
+
+            boolean decremented = ticketDetailDomainService.decrementStock(ticketId);
+            if(!decremented) {
+                return false; 
+            }
+
+            Order order = new Order()
+                .setUserId(userId)
+                .setTicketDetailId(ticketId)
+                .setQuantity(1)
+                .setStatus(0)
+                .setCreatedAt(new Date());
+            orderRepository.save(order);
+
+            ticketDetailLocalCache.invalidate(ticketId);
+            redisInfrasService.delete(genEventItemKey(ticketId));
+
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            locker.unlock();
+        }
     }
+
 
     /**
      * get ticket item by id in cache
