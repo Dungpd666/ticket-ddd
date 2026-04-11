@@ -4,30 +4,24 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 //import com.google.common.cache.Cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.xxxx.ddd.domain.model.entity.Ticket;
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
 import com.xxxx.ddd.domain.service.TicketDetailDomainService;
-import com.xxxx.ddd.domain.service.impl.TicketDetailDomainServiceImpl;
 import com.xxxx.ddd.infrastructure.cache.redis.RedisInfrasService;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedLocker;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TicketDetailCacheService {
-    @Autowired
-    private RedisDistributedService redisDistributedService;
-    @Autowired // Khai bao cache
-    private RedisInfrasService redisInfrasService;
-    @Autowired
-    private TicketDetailDomainService ticketDetailDomainService;
+    private final RedisDistributedService redisDistributedService;
+    private final RedisInfrasService redisInfrasService;
+    private final TicketDetailDomainService ticketDetailDomainService;
 
    // private static final Logger log = LoggerFactory.getLogger(TicketDetailCacheService.class);
     // use guava

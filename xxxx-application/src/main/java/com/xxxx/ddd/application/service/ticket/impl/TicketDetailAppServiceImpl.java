@@ -1,6 +1,5 @@
 package com.xxxx.ddd.application.service.ticket.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xxxx.ddd.application.mapper.TicketDetailMapper;
@@ -9,14 +8,15 @@ import com.xxxx.ddd.application.model.cache.TicketDetailCache;
 import com.xxxx.ddd.application.service.ticket.TicketDetailAppService;
 import com.xxxx.ddd.application.service.ticket.cache.TicketDetailCacheServiceRefactor;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TicketDetailAppServiceImpl implements TicketDetailAppService {
 
-    @Autowired
-    private TicketDetailCacheServiceRefactor ticketDetailCacheServiceRefactor;
+    private final TicketDetailCacheServiceRefactor ticketDetailCacheServiceRefactor;
 
     @Override
     public TicketDetailDTO getTicketDetailById(Long ticketId, Long version) {
