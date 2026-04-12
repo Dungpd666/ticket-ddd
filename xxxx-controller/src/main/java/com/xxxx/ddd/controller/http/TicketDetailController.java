@@ -66,9 +66,9 @@ public class TicketDetailController {
      */
     @GetMapping("/{ticketId}/detail/{detailId}")
     public ResultMessage<TicketDetailDTO> getTicketDetail(
-            @PathVariable("ticketId") Long ticketId,
-            @PathVariable("detailId") Long detailId,
-            @RequestParam(name = "version", required = false) Long version) {
+            @PathVariable Long ticketId,
+            @PathVariable Long detailId,
+            @RequestParam(required = false) Long version) {
         return ResultUtil.data(ticketDetailAppService.getTicketDetailById(detailId, version));
     }
 
@@ -81,8 +81,8 @@ public class TicketDetailController {
      */
     @PostMapping("/{ticketId}/detail/{detailId}/order")
     public ResultMessage<Boolean> orderTicketByUser(
-            @PathVariable("ticketId") Long ticketId,
-            @PathVariable("detailId") Long detailId,
+            @PathVariable Long ticketId,
+            @PathVariable Long detailId,
             @RequestBody @Valid OrderRequest request) {
         boolean result = ticketDetailAppService.orderTicketByUser(detailId, request.getUserId(), request.getQuantity());
         return result ? ResultUtil.data(true) : ResultUtil.error(ResultCode.UN_ERROR.code(), "Order failed");
