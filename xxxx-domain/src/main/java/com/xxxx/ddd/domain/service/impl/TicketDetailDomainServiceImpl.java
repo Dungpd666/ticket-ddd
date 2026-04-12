@@ -4,6 +4,8 @@ import java.util.Date;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
@@ -26,14 +28,14 @@ public class TicketDetailDomainServiceImpl implements TicketDetailDomainService 
 
     @Override
     @Transactional
-    public boolean decrementStock(Long ticketId) {
+    public boolean decrementStock(Long ticketId, int quantity) {
         TicketDetail ticketDetail = ticketDetailRepository.findById(ticketId).orElse(null);
         if (ticketDetail == null) {
             log.warn("TicketDetail not found for id: {}", ticketId);
             return false;
         }
 
-        ticketDetail.setStockAvailable(ticketDetail.getStockAvailable() - 1);
+        ticketDetail.setStockAvailable(ticketDetail.getStockAvailable() - quantity);
         ticketDetail.setUpdatedAt(new Date());
         ticketDetailRepository.save(ticketDetail);
         return true;
@@ -41,16 +43,21 @@ public class TicketDetailDomainServiceImpl implements TicketDetailDomainService 
 
     @Override
     @Transactional
-    public boolean incrementStock(Long ticketId) {
+    public boolean incrementStock(Long ticketId, int quantity) {
         TicketDetail ticketDetail = ticketDetailRepository.findById(ticketId).orElse(null);
         if (ticketDetail == null) {
             log.warn("TicketDetail not found for id: {}", ticketId);
             return false;
         }
 
-        ticketDetail.setStockAvailable(ticketDetail.getStockAvailable() + 1);
+        ticketDetail.setStockAvailable(ticketDetail.getStockAvailable() + quantity);
         ticketDetail.setUpdatedAt(new Date());
         ticketDetailRepository.save(ticketDetail);
         return true;
+    }
+
+    @Override
+    public Page<TicketDetail> getTicketDetailById(Long ticketId, Pageable pageable) {
+        return ticketDetailRepository.findByActivityId(ticketId, pageable);
     }
 }
