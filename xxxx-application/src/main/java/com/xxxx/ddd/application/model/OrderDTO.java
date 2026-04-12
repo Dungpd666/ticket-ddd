@@ -2,6 +2,7 @@ package com.xxxx.ddd.application.model;
 
 import java.util.Date;
 
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import lombok.Data;
 
 @Data
@@ -10,6 +11,6 @@ public class OrderDTO {
     private Long userId;
     private Long ticketDetailId;
     private int quantity;
-    private int status; // 0 = pending, 1 = completed, 2 = cancelled
+    private OrderStatus status;
     private Date createdAt;
 }
