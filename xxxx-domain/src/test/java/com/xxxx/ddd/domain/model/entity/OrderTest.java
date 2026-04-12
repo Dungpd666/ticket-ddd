@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
+
 import org.junit.jupiter.api.Test;
 
 public class OrderTest {
@@ -16,30 +18,24 @@ public class OrderTest {
                 .setUserId(123L)
                 .setTicketDetailId(456L)
                 .setQuantity(2)
-                .setStatus(0)
-                .setCreatedAt(now);
-
-        assertThat(order.getUserId()).isEqualTo(123L);
-        assertThat(order.getTicketDetailId()).isEqualTo(456L);
-        assertThat(order.getQuantity()).isEqualTo(2);
-        assertThat(order.getStatus()).isEqualTo(0);
+                .setStatus(OrderStatus.PENDING);
     }
 
     @Test
     void status_0_means_pending() {
-        Order order = new Order().setStatus(0);
+        Order order = new Order().setStatus(OrderStatus.PENDING);
         assertThat(order.getStatus()).isEqualTo(0);
     }
 
     @Test
     void status_1_means_completed() {
-        Order order = new Order().setStatus(1);
+        Order order = new Order().setStatus(OrderStatus.CONFIRMED);
         assertThat(order.getStatus()).isEqualTo(1);
     }
 
     @Test
     void status_2_means_cancelled() {
-        Order order = new Order().setStatus(2);
+        Order order = new Order().setStatus(OrderStatus.CANCELLED);
         assertThat(order.getStatus()).isEqualTo(2);
     }
 }

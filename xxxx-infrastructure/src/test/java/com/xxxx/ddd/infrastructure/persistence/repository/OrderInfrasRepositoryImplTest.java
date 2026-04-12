@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import com.xxxx.ddd.domain.model.entity.Order;
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import com.xxxx.ddd.infrastructure.persistence.mapper.OrderJPAMapper;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class OrderInfrasRepositoryImplTest {
                 .setUserId(123L)
                 .setTicketDetailId(456L)
                 .setQuantity(2)
-                .setStatus(0);
+                .setStatus(OrderStatus.PENDING);
     }
 
     @Test

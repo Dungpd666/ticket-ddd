@@ -2,7 +2,6 @@ package com.xxxx.ddd.controller.http;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,22 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xxxx.ddd.application.model.TicketDetailDTO;
-import com.xxxx.ddd.application.service.ticket.TicketDetailAppService;
+import com.xxxx.ddd.application.service.ticketDetail.TicketDetailAppService;
 import com.xxxx.ddd.controller.model.enums.ResultCode;
 import com.xxxx.ddd.controller.model.enums.ResultUtil;
 import com.xxxx.ddd.controller.model.request.OrderRequest;
 import com.xxxx.ddd.controller.model.vo.ResultMessage;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/ticket")
 @Slf4j
+@RequiredArgsConstructor
 public class TicketDetailController {
 
-    // CALL Service Application
-    @Autowired
-    private TicketDetailAppService ticketDetailAppService;
+    private final TicketDetailAppService ticketDetailAppService;
 
     @GetMapping("/ping/java")
     public ResponseEntity<Object> ping() throws InterruptedException {
@@ -67,9 +66,9 @@ public class TicketDetailController {
      */
     @GetMapping("/{ticketId}/detail/{detailId}")
     public ResultMessage<TicketDetailDTO> getTicketDetail(
-            @PathVariable("ticketId") Long ticketId,
-            @PathVariable("detailId") Long detailId,
-            @RequestParam(name = "version", required = false) Long version) {
+            @PathVariable Long ticketId,
+            @PathVariable Long detailId,
+            @RequestParam(required = false) Long version) {
         return ResultUtil.data(ticketDetailAppService.getTicketDetailById(detailId, version));
     }
 
@@ -82,10 +81,10 @@ public class TicketDetailController {
      */
     @PostMapping("/{ticketId}/detail/{detailId}/order")
     public ResultMessage<Boolean> orderTicketByUser(
-            @PathVariable("ticketId") Long ticketId,
-            @PathVariable("detailId") Long detailId,
+            @PathVariable Long ticketId,
+            @PathVariable Long detailId,
             @RequestBody @Valid OrderRequest request) {
-        boolean result = ticketDetailAppService.orderTicketByUser(detailId, request.getUserId());
+        boolean result = ticketDetailAppService.orderTicketByUser(detailId, request.getUserId(), request.getQuantity());
         return result ? ResultUtil.data(true) : ResultUtil.error(ResultCode.UN_ERROR.code(), "Order failed");
     }
 
