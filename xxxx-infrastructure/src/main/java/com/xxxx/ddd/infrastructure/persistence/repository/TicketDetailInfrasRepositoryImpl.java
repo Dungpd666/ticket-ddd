@@ -2,6 +2,8 @@ package com.xxxx.ddd.infrastructure.persistence.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
@@ -26,5 +28,10 @@ public class TicketDetailInfrasRepositoryImpl implements TicketDetailRepository 
     @Override
     public TicketDetail save(TicketDetail ticketDetail) {
         return ticketDetailJPAMapper.save(ticketDetail);
+    }
+
+    @Override
+    public Page<TicketDetail> findByActivityId(Long ticketId, Pageable pageable) {
+        return ticketDetailJPAMapper.findByActivityId(ticketId, pageable);
     }
 }
