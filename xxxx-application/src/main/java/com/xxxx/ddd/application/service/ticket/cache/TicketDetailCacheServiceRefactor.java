@@ -9,6 +9,7 @@ import com.google.common.cache.CacheBuilder;
 import com.xxxx.ddd.application.model.cache.TicketDetailCache;
 import com.xxxx.ddd.domain.model.entity.Order;
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import com.xxxx.ddd.domain.respository.OrderRepository;
 import com.xxxx.ddd.domain.service.TicketDetailDomainService;
 
@@ -55,7 +56,7 @@ public class TicketDetailCacheServiceRefactor {
                 .setUserId(userId)
                 .setTicketDetailId(ticketId)
                 .setQuantity(1)
-                .setStatus(0)
+                .setStatus(OrderStatus.PENDING)
                 .setCreatedAt(new Date());
             orderRepository.save(order);
 

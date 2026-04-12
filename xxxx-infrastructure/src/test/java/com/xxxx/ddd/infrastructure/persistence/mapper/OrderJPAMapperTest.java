@@ -1,6 +1,7 @@
 package com.xxxx.ddd.infrastructure.persistence.mapper;
 
 import com.xxxx.ddd.domain.model.entity.Order;
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,7 +23,7 @@ class OrderJPAMapperTest {
                 .setUserId(1L)
                 .setTicketDetailId(10L)
                 .setQuantity(2)
-                .setStatus(0)
+                .setStatus(OrderStatus.PENDING)
                 .setCreatedAt(new Date())
                 .setUpdatedAt(new Date());
 
@@ -33,7 +34,7 @@ class OrderJPAMapperTest {
         Optional<Order> found = orderJPAMapper.findById(saved.getId());
         assertThat(found).isPresent();
         assertThat(found.get().getUserId()).isEqualTo(1L);
-        assertThat(found.get().getStatus()).isZero();
+        assertThat(found.get().getStatus()).isEqualTo(OrderStatus.PENDING);
     }
 
     @Test
