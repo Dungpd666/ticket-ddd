@@ -37,7 +37,7 @@ public class OrderAppServiceImpl implements OrderAppService {
     @Override
     public OrderDTO cancelOrder(Long orderId) {
         Order order = orderDomainService.cancelOrder(orderId);
-        ticketDetailDomainService.incrementStock(order.getTicketDetailId());
+        ticketDetailDomainService.incrementStock(order.getTicketDetailId(), order.getQuantity());
         return OrderMapper.mapperToOrderDTO(order);
     }
 

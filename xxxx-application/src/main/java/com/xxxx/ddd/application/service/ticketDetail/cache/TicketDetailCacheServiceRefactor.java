@@ -1,5 +1,6 @@
-package com.xxxx.ddd.application.service.ticket.cache;
+package com.xxxx.ddd.application.service.ticketDetail.cache;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
@@ -12,8 +13,6 @@ import com.xxxx.ddd.domain.model.entity.TicketDetail;
 import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import com.xxxx.ddd.domain.respository.OrderRepository;
 import com.xxxx.ddd.domain.service.TicketDetailDomainService;
-
-import java.util.Date;
 import com.xxxx.ddd.infrastructure.cache.redis.RedisInfrasService;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedLocker;
 import com.xxxx.ddd.infrastructure.distributed.redisson.RedisDistributedService;
@@ -38,26 +37,26 @@ public class TicketDetailCacheServiceRefactor {
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
-    public boolean orderTicketByUser(Long ticketId, Long userId) {
+    public boolean orderTicketByUser(Long ticketId, Long userId, int quantity) {
         RedisDistributedLocker locker = redisDistributedService.getDistributedLock(genEventItemKeyLock(ticketId));
 
         try {
             boolean isLock = locker.tryLock(1, 5, TimeUnit.SECONDS);
-            if(!isLock) {
-                return false; 
+            if (!isLock) {
+                return false;
             }
 
-            boolean decremented = ticketDetailDomainService.decrementStock(ticketId);
-            if(!decremented) {
-                return false; 
+            boolean decremented = ticketDetailDomainService.decrementStock(ticketId, quantity);
+            if (!decremented) {
+                return false;
             }
 
             Order order = new Order()
-                .setUserId(userId)
-                .setTicketDetailId(ticketId)
-                .setQuantity(1)
-                .setStatus(OrderStatus.PENDING)
-                .setCreatedAt(new Date());
+                    .setUserId(userId)
+                    .setTicketDetailId(ticketId)
+                    .setQuantity(quantity)
+                    .setStatus(OrderStatus.PENDING)
+                    .setCreatedAt(new Date());
             orderRepository.save(order);
 
             ticketDetailLocalCache.invalidate(ticketId);
@@ -70,7 +69,6 @@ public class TicketDetailCacheServiceRefactor {
             locker.unlock();
         }
     }
-
 
     /**
      * get ticket item by id in cache
