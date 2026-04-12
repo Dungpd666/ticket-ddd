@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.xxxx.ddd.application.model.cache.TicketDetailCache;
+import com.xxxx.ddd.domain.exception.OrderNotAllowedException;
 import com.xxxx.ddd.domain.model.entity.Order;
 import com.xxxx.ddd.domain.model.entity.TicketDetail;
 import com.xxxx.ddd.domain.model.enums.OrderStatus;
@@ -63,6 +64,8 @@ public class TicketDetailCacheServiceRefactor {
             redisInfrasService.delete(genEventItemKey(ticketId));
 
             return true;
+        } catch (OrderNotAllowedException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
