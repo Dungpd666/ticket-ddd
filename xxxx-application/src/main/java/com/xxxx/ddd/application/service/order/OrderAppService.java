@@ -10,6 +10,6 @@ public interface OrderAppService {
 
     Page<OrderDTO> getOrdersByUserId(Long userId, int page, int size);
 
-    OrderDTO cancelOrder(Long orderId);
+    OrderDTO cancelOrder(Long orderId, Long userId);
 
 }
