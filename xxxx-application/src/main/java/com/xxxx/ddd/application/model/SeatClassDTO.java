@@ -1,23 +1,21 @@
 package com.xxxx.ddd.application.model;
 
-import lombok.Data;
-
 import java.util.Date;
 
-@Data
-public class TicketDetailDTO {
+import lombok.Data;
 
+@Data
+public class SeatClassDTO {
     private Long id;
     private String name;
     private int stockInitial;
     private int stockAvailable;
     private boolean isStockPrepared;
-    private Long priceOriginal;
+    private Long price;
     private Long priceFlash;
     private Date saleStartTime;
     private Date saleEndTime;
     private int status;
-    private Long activityId;
-    // add version
+    private Long tripId;
     private Long version;
 }
