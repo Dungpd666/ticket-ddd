@@ -1,7 +1,7 @@
 package com.xxxx.ddd.domain.model.enums;
 
 public enum OrderStatus {
-    PENDING(0), CONFIRMED(1), CANCELLED(2);
+    PENDING(0), CONFIRMED(1), CANCELLED(2), PAYMENT_PENDING(3), FAILED(4);
 
     private final int code;
 

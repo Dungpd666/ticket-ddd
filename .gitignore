@@ -36,3 +36,20 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Claude Code ###
+.claude/settings.local.json
+
+### Docker runtime data ###
+environment/data/db_data/
+environment/data/prometheus_data/
+environment/data/grafana_data/
+environment/grafana-storage/
+
+### App config (contains secrets) ###
+**/application.yml
+**/application.yaml
+
+### Logs ###
+*.log
+logs/
