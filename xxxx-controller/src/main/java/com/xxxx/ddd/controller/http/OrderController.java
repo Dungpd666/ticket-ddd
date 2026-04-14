@@ -23,7 +23,8 @@ public class OrderController {
     private final OrderAppService orderAppService;
 
     @GetMapping("/{orderId}")
-    public ResultMessage<OrderDTO> getOrderById(@PathVariable Long orderId, @RequestParam Long userId) {
+    public ResultMessage<OrderDTO> getOrderById(@PathVariable Long orderId) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResultUtil.data(orderAppService.getOrderById(orderId, userId));
     }
 
