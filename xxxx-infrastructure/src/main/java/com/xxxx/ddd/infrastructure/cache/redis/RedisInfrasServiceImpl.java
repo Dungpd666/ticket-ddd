@@ -2,6 +2,7 @@ package com.xxxx.ddd.infrastructure.cache.redis;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import jakarta.annotation.Resource;
 
@@ -50,7 +51,7 @@ public class RedisInfrasServiceImpl implements RedisInfrasService {
         }
 
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value, 30, TimeUnit.MINUTES);
         } catch (Exception e) {
             // log.error("setObject error:{}",e.getMessage());
         }
