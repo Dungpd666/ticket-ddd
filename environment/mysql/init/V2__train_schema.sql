@@ -47,6 +47,18 @@ CREATE TABLE IF NOT EXISTS users (
     UNIQUE KEY uq_users_email    (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Application users';
 
+CREATE TABLE IF NOT EXISTS orders (
+    id               BIGINT      NOT NULL AUTO_INCREMENT,
+    user_id          BIGINT      NOT NULL,
+    ticket_detail_id BIGINT      NOT NULL,
+    quantity         INT         NOT NULL DEFAULT 1,
+    status           VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT 'PENDING CONFIRMED CANCELLED PAYMENT_PENDING FAILED',
+    created_at       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_orders_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ticket orders';
+
 CREATE TABLE IF NOT EXISTS payment (
     id           BIGINT       NOT NULL AUTO_INCREMENT,
     order_id     BIGINT       NOT NULL,
