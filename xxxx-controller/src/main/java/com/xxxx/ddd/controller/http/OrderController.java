@@ -1,5 +1,6 @@
 package com.xxxx.ddd.controller.http;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,8 @@ public class OrderController {
     private final OrderAppService orderAppService;
 
     @GetMapping("/{orderId}")
-    public ResultMessage<OrderDTO> getOrderById(@PathVariable Long orderId, @RequestParam Long userId) {
+    public ResultMessage<OrderDTO> getOrderById(@PathVariable Long orderId) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResultUtil.data(orderAppService.getOrderById(orderId, userId));
     }
 
@@ -36,6 +38,7 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     public ResultMessage<OrderDTO> cancelOrder(@PathVariable Long orderId) {
-        return ResultUtil.data(orderAppService.cancelOrder(orderId));
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResultUtil.data(orderAppService.cancelOrder(orderId, userId));
     }
 }

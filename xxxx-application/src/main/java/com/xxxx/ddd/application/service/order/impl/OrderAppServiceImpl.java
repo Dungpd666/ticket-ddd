@@ -36,7 +36,10 @@ public class OrderAppServiceImpl implements OrderAppService {
     }
 
     @Override
-    public OrderDTO cancelOrder(Long orderId) {
+    public OrderDTO cancelOrder(Long orderId, Long userId) {
+        orderDomainService.getOrderById(orderId)
+                .filter(o -> o.getUserId().equals(userId))
+                .orElseThrow(() -> new RuntimeException("Order not found"));
         Order order = orderDomainService.cancelOrder(orderId);
         if (order.getStatus() == OrderStatus.PAYMENT_PENDING || order.getStatus() == OrderStatus.PENDING) {
             seatClassDomainService.incrementStock(order.getTicketDetailId(), order.getQuantity());

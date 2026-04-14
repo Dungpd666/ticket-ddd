@@ -34,8 +34,8 @@ public enum ResultCode {
      */
     USER_SESSION_EXPIRED(20004, "Phiên đăng nhập của người dùng đã hết hạn, vui lòng đăng nhập lại"),
     USER_PERMISSION_ERROR(20005, "Quyền hạn không đủ"),
+    USER_UNAUTHORIZED(40101, "Tên đăng nhập hoặc mật khẩu không chính xác"),
     USER_PASSWORD_ERROR(20010, "Mật khẩu không chính xác"),
-    USER_AUTH_ERROR(20005, "Quyền hạn không đủ"),
     EMPLOYEE_NOT_FOUND(20027, "Nhân viên không tồn tại"),
     EMPLOYEE_DISABLED(20031, "Nhân viên đã bị vô hiệu hóa"),
     USER_NOT_FOUND(20002, "Người dùng không tồn tại hoặc tài khoản đã bị vô hiệu hóa"),
@@ -60,7 +60,7 @@ public enum ResultCode {
      * Sản phẩm
      */
     PRODUCT_ERROR(11001, "Sản phẩm lỗi, vui lòng thử lại sau"),
-    PRODUCT_NOT_EXIST(11001, "Sản phẩm đã hết hàng"),
+    PRODUCT_NOT_EXIST(11019, "Sản phẩm đã hết hàng"),
     PRODUCT_NAME_ERROR(11002, "Tên sản phẩm không chính xác, tên phải từ 2-50 ký tự"),
     PRODUCT_UNDER_ERROR(11003, "Xuống kệ sản phẩm thất bại"),
     PRODUCT_UPPER_ERROR(11004, "Lên kệ sản phẩm thất bại"),
@@ -73,7 +73,7 @@ public enum ResultCode {
     PRODUCT_SKU_COST_ERROR(11009, "Giá vốn sản phẩm SKU không được nhỏ hơn hoặc bằng 0"),
     PRODUCT_SKU_WEIGHT_ERROR(11010, "Trọng lượng sản phẩm không được âm"),
     PRODUCT_SKU_QUANTITY_ERROR(11011, "Số lượng kho sản phẩm không được âm"),
-    PRODUCT_SKU_QUANTITY_NOT_ENOUGH(11011, "Số lượng kho không đủ"),
+    PRODUCT_SKU_QUANTITY_NOT_ENOUGH(11027, "Số lượng kho không đủ"),
     MUST_HAVE_PRODUCT_SKU(11012, "Phải có ít nhất một thông số kỹ thuật!"),
     MUST_HAVE_SALES_MODEL(11022, "Chế độ bán hàng là bán sỉ thì phải có quy tắc bán sỉ!"),
 
@@ -96,10 +96,10 @@ public enum ResultCode {
     PRODUCT_BRAND_UPDATE_ERROR(14002, "Cập nhật thương hiệu thất bại"),
     PRODUCT_BRAND_DISABLE_ERROR(14003, "Vô hiệu hóa thương hiệu thất bại"),
     PRODUCT_BRAND_DELETE_ERROR(14004, "Xóa thương hiệu thất bại"),
-    PRODUCT_BRAND_NAME_EXIST_ERROR(20002, "Tên thương hiệu đã tồn tại!"),
-    PRODUCT_BRAND_USE_DISABLE_ERROR(20003, "Danh mục đã được liên kết với thương hiệu, vui lòng hủy liên kết trước"),
-    PRODUCT_BRAND_BIND_ERROR(20005, "Thương hiệu đã được liên kết với sản phẩm, vui lòng hủy liên kết trước"),
-    PRODUCT_BRAND_NOT_EXIST(20004, "Thương hiệu không tồn tại"),
+    PRODUCT_BRAND_NAME_EXIST_ERROR(14005, "Tên thương hiệu đã tồn tại!"),
+    PRODUCT_BRAND_USE_DISABLE_ERROR(14006, "Danh mục đã được liên kết với thương hiệu, vui lòng hủy liên kết trước"),
+    PRODUCT_BRAND_BIND_ERROR(14007, "Thương hiệu đã được liên kết với sản phẩm, vui lòng hủy liên kết trước"),
+    PRODUCT_BRAND_NOT_EXIST(14008, "Thương hiệu không tồn tại"),
 
     /**
      * Thông số kỹ thuật

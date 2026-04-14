@@ -1,14 +1,21 @@
 package com.xxxx.ddd.domain.model.entity;
 
-import jakarta.persistence.*;
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import com.xxxx.ddd.domain.model.enums.OrderStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
-
-import com.xxxx.ddd.domain.model.enums.OrderStatus;
 
 @Data
 @Accessors(chain = true)
@@ -26,7 +33,7 @@ public class Order {
     private Long ticketDetailId;
     private int quantity;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     private Date createdAt;
