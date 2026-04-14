@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xxxx.ddd.domain.exception.OrderNotAllowedException;
+import com.xxxx.ddd.domain.exception.OrderNotFoundException;
 import com.xxxx.ddd.domain.model.entity.Order;
 import com.xxxx.ddd.domain.model.enums.OrderStatus;
 import com.xxxx.ddd.domain.respository.OrderRepository;
@@ -36,13 +38,13 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
     @Transactional
     public Order cancelOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
 
         if (order.getStatus() == OrderStatus.CANCELLED) {
-            throw new RuntimeException("Order already cancelled");
+            throw new OrderNotAllowedException("Order already cancelled");
         }
         if (order.getStatus() == OrderStatus.CONFIRMED) {
-            throw new RuntimeException("Order already completed, cannot cancel");
+            throw new OrderNotAllowedException("Order already completed, cannot cancel");
         }
 
         order.setStatus(OrderStatus.CANCELLED).setUpdatedAt(new Date());
