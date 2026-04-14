@@ -40,17 +40,17 @@ public class SeatClassCacheService {
             .build();
 
     @Transactional
-    public boolean orderSeatClassByUser(Long seatClassId, Long userId, int quantity) {
+    public Order orderSeatClassByUser(Long seatClassId, Long userId, int quantity) {
         RedisDistributedLocker locker = redisDistributedService.getDistributedLock(lockKey(seatClassId));
         try {
             boolean isLock = locker.tryLock(1, 5, TimeUnit.SECONDS);
             if (!isLock) {
-                return false;
+                return null;
             }
 
             boolean decremented = seatClassDomainService.decrementStock(seatClassId, quantity);
             if (!decremented) {
-                return false;
+                return null;
             }
 
             Order order = new Order()
@@ -59,12 +59,12 @@ public class SeatClassCacheService {
                     .setQuantity(quantity)
                     .setStatus(OrderStatus.PAYMENT_PENDING)
                     .setCreatedAt(new Date());
-            orderRepository.save(order);
+            Order saved = orderRepository.save(order);
 
             localCache.invalidate(seatClassId);
             redisInfrasService.delete(cacheKey(seatClassId));
 
-            return true;
+            return saved;
         } catch (OrderNotAllowedException e) {
             throw e;
         } catch (Exception e) {
