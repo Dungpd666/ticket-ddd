@@ -1,5 +1,6 @@
 package com.xxxx.ddd.domain.respository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,4 +17,6 @@ public interface TrainTripRepository {
     Page<TrainTrip> findAll(Pageable pageable);
 
     Page<TrainTrip> findByStatus(TrainTripStatus status, Pageable pageable);
+
+    Page<TrainTrip> search(String origin, String destination, Date dayStart, Date dayEnd, Pageable pageable);
 }
