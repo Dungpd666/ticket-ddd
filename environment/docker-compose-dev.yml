@@ -18,7 +18,7 @@ services:
     ]
     environment:
       MYSQL_ROOT_PASSWORD: root1234
-      MYSQL_DATABASE: ticket
+      MYSQL_DATABASE: vetautet
       MYSQL_PASSWORD: root1234
     ports:
       - "3316:3306"

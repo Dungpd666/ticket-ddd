@@ -1,5 +1,6 @@
 package com.xxxx.ddd.infrastructure.persistence.repository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -32,5 +33,10 @@ public class TrainTripInfrasRepositoryImpl implements TrainTripRepository {
     @Override
     public Page<TrainTrip> findByStatus(TrainTripStatus status, Pageable pageable) {
         return trainTripJPAMapper.findByStatus(status, pageable);
+    }
+
+    @Override
+    public Page<TrainTrip> search(String origin, String destination, Date dayStart, Date dayEnd, Pageable pageable) {
+        return trainTripJPAMapper.searchTrips(origin, destination, dayStart, dayEnd, pageable);
     }
 }

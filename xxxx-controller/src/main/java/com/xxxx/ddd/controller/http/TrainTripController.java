@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xxxx.ddd.application.model.SeatClassDTO;
 import com.xxxx.ddd.application.model.TrainTripDTO;
+import com.xxxx.ddd.application.service.trainTrip.TrainSearchAppService;
 import com.xxxx.ddd.application.service.trainTrip.TrainTripAppService;
 import com.xxxx.ddd.controller.model.enums.ResultUtil;
 import com.xxxx.ddd.controller.model.vo.PageResult;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class TrainTripController {
 
     private final TrainTripAppService trainTripAppService;
+    private final TrainSearchAppService trainSearchAppService;
 
     @GetMapping("/{tripId}")
     public ResultMessage<TrainTripDTO> getTripById(@PathVariable Long tripId) {
@@ -42,5 +44,15 @@ public class TrainTripController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         return ResultUtil.data(PageResult.of(trainTripAppService.listSeatClasses(tripId, page, size)));
+    }
+
+    @GetMapping("/search")
+    public ResultMessage<PageResult<TrainTripDTO>> searchTrips(
+            @RequestParam String origin,
+            @RequestParam String destination,
+            @RequestParam String date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResultUtil.data(PageResult.of(trainSearchAppService.searchTrips(origin, destination, date, page, size)));
     }
 }
