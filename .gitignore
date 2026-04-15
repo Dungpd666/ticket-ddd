@@ -39,6 +39,8 @@ build/
 
 ### Claude Code ###
 .claude/settings.local.json
+CLAUDE.md
+META-INF/
 
 ### Docker runtime data ###
 environment/data/db_data/
